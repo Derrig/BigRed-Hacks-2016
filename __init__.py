@@ -1,7 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
+from random import randint
 app = Flask(__name__)
 @app.route("/")
-def hello():
-    return "We're alive! Schuyler for life!"
+def index():
+    return render_template('index.html')
+
+@app.route("/test")
+def tester():
+    return "this is a test"
+
 if __name__ == "__main__":
     app.run()
