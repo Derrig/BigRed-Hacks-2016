@@ -5,9 +5,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/test")
+@app.route("/ohGod")
 def tester():
-    return "this is a test"
+    return "what are we doing"
 
 if __name__ == "__main__":
     app.run()
