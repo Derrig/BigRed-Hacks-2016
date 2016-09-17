@@ -4,44 +4,14 @@
     <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
+    <link href="../static/css/main.css" rel="stylesheet">
+    <script src="../static/js/heatmap.js"></script>
   </head>
 
   <body>
     <h3>Cornell Building Energy Usage Heatmap</h3>
 
     <div id="map"></div>
-    <script>
-      var heatMapData;
-      var map;
-      var heatmap;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 42.4472051, lng: -76.48297680000002},
-          zoom: 15
-        });
-        heatMapData = [
-          <!--PSB-->
-          {location: new google.maps.LatLng(42.4498226, -76.481841), weight: 0.5},
-          <!--GATES-->
-          {location: new google.maps.LatLng(42.4448765, -76.4808143), weight: 0.2}
-        ];
-        heatmap = new google.maps.visualization.HeatmapLayer({
-                  data: heatMapData,
-                  radius: 50
-        });
-        heatmap.setMap(map);
-      }
-    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzYPyMjoWb-UXw5Bfe7b5v00mjIGlTMew&libraries=visualization&callback=initMap"
     async defer></script>
   </body>
