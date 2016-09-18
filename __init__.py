@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import data_fetcher
 from werkzeug.contrib.cache import SimpleCache
+import json
 
 cache = SimpleCache()
 app = Flask(__name__)
