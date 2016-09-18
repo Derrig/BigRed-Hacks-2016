@@ -15,6 +15,9 @@
 import pandas as pd
 import buildings as bds
 import re
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+matplotlib.style.use('ggplot')
 
 no_data = []
 
@@ -22,6 +25,13 @@ def create_url(bd):
     ur1 = "http://portal.emcs.cornell.edu/"
     ur2 = "?cmd=csv&s=1d&b=1474084800&e=1474171200"
     return ur1 + bd + ur2
+
+def time_series(df):
+    # df is a dataframe with timestamp, kw cols
+    cols = df.column.values[:]
+    ax = df.plot(x=cols[0],y=cols[1])
+    fig = ax.get_figure()
+    fig.savefig('timeSeries.png')
 
 def parse_csv():
     builds = bds.builds
@@ -54,7 +64,8 @@ def parse_csv():
         # for i in xrange(1,len(elec)):
         #     data_keep = data_keep[ data_keep[elec[i]] != "nodata" ]
         data_keep = data_keep[ data_keep[elec[1]] != "nodata" ]
-
+        time_series(data_keep)
+        import sys; sys.exit()
         ############################## psb ###########
         # images
         if psb:
@@ -94,8 +105,6 @@ def sum_exception(dct,rgx,new):
     dct[new] = cumPow
     # print dct[new]
 
-def time_series(df):
-    pass
 
 def main():
     pdic = parse_csv()
@@ -110,6 +119,7 @@ def main():
     # sum_exception(pdic)
     sum_exception(pdic,"^Schurman\s.+","Schurman")
     print no_data
+    sum_exception(pdic,"^Wing Hall\s.*","Wing Hall")
     return pdic
 
 
