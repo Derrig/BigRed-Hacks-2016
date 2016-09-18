@@ -8,7 +8,7 @@
 # TODO:
 # [x] combine RESS buildings
 # [x] combine IVES HALL, EAST WEST ....
-# [ ] fix psb
+# [x] fix psb
 # [ ] create power graphs in python
 # [x] cache systems
 
@@ -55,13 +55,14 @@ def parse_csv():
         ############################## psb ###########
         # images
         if psb:
-            print "doing physical sciences buildings"
             data_keep = data_keep[ data_keep[elec[2]] != "nodata" ]
-            data_keep['sum_kw_system'] = data_keep[elec[1]] + data_keep[elec[2]]
-            print data_keep['sum_kw_system']
+            # print data_keep[elec[1]], "is data 1"
+            # print data_keep[elec[2]], "is data 2"
+            data_keep['sum_kw_system'] = data_keep[elec[1]].astype(float) + data_keep[elec[2]].astype(float)
+            # print data_keep['sum_kw_system']
             elec = data_keep.columns.values[:]
-            df.drop(elec[1], axis=1, inplace=True)
-            df.drop(elec[2], axis=1, inplace=True)
+            data_keep.drop(elec[1], axis=1, inplace=True)
+            data_keep.drop(elec[2], axis=1, inplace=True)
 
         # lst.append(data_keep.tail(1))
         data_keep = data_keep.tail(1)
@@ -91,7 +92,6 @@ def sum_exception(dct,rgx,new):
     # print dct[new]
 
 def time_series(df):
-
     pass
 
 def main():
