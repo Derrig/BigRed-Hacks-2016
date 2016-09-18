@@ -17,13 +17,14 @@ import buildings as bds
 import re
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-matplotlib.style.use('ggplot')
+mpl.style.use('ggplot')
 
 no_data = []
 
 def create_url(bd):
     ur1 = "http://portal.emcs.cornell.edu/"
-    ur2 = "?cmd=csv&s=1d&b=1474084800&e=1474171200"
+    # ur2 = "?cmd=csv&s=1d&b=1474084800&e=1474171200"
+    ur2 = "?cmd=csv&s=1d&b=1474171200&e=1474257600"
     return ur1 + bd + ur2
 
 def time_series(df):
@@ -61,11 +62,12 @@ def parse_csv():
             continue
 
         elec = data_keep.columns.values[:]
-        # for i in xrange(1,len(elec)):
-        #     data_keep = data_keep[ data_keep[elec[i]] != "nodata" ]
+        for i in xrange(1,len(elec)):
+            data_keep = data_keep[ data_keep[elec[i]] != "nodata" ]
         data_keep = data_keep[ data_keep[elec[1]] != "nodata" ]
-        time_series(data_keep)
-        import sys; sys.exit()
+
+        # time_series(data_keep)
+        # import sys; sys.exit()
         ############################## psb ###########
         # images
         if psb:
@@ -109,18 +111,23 @@ def sum_exception(dct,rgx,new):
 def main():
     pdic = parse_csv()
     print len(pdic)
-    sum_exception(pdic,"^Martha VanRensselaer\s.+","Martha VanRensselaer")
+    sum_exception(pdic,"^MARTHA VANRENSSELAER\s.+","MARTHA VANRENSSELAER")
     print len(pdic)
-    sum_exception(pdic,"^Vet\s.+","Vet School")
+    sum_exception(pdic,"^VET\s.+","VET SCHOOL")
     print len(pdic)
-    sum_exception(pdic,"^Ives\s.+","Ives")
+    sum_exception(pdic,"^IVES\s.+","IVES")
     print len(pdic)
-    sum_exception(pdic,"^Friedman\s.+","Friedman Wrestling Center")
+    sum_exception(pdic,"^FRIEDMAN\s.+","FRIEDMAN WRESTLING CENTER")
+    print len(pdic)
     # sum_exception(pdic)
-    sum_exception(pdic,"^Schurman\s.+","Schurman")
-    print no_data
-    sum_exception(pdic,"^Wing Hall.*","Wing Hall")
+    sum_exception(pdic,"^SCHURMAN\s.+","SCHURMAN")
+    print len(pdic)
+    sum_exception(pdic,"^WING HALL.*","WING HALL")
+    print len(pdic)
+    print no_data, " is no data"
+    print pdic
     return pdic
+
 
 
 if __name__ == "__main__":
