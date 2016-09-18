@@ -22,5 +22,12 @@ def index():
 def tester():
     return "what are we doing"
 
+@app.route("/secret")
+def secret():
+    """TODO: Docstring for secret.
+    :returns: TODO
+    """
+    return 'This is a secret page. Congratulations for finding this page! Please contact Byungchan Lim at bl458@cornell.edu, and (408)-203-0543 for your prize!'
+
 if __name__ == "__main__":
     app.run()
