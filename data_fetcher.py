@@ -81,19 +81,28 @@ def parse_csv():
         # images
         if psb:
             data_keep = data_keep[ data_keep[elec[2]] != "nodata" ]
-            # print data_keep[elec[1]], "is data 1"
-            # print data_keep[elec[2]], "is data 2"
+            print data_keep[elec[1]], "is data 1"
+            print data_keep[elec[2]], "is data 2"
             data_keep['sum_kw_system'] = data_keep[elec[1]].astype(float) + data_keep[elec[2]].astype(float)
-            # print data_keep['sum_kw_system']
+            print data_keep['sum_kw_system']
             elec = data_keep.columns.values[:]
             data_keep.drop(elec[1], axis=1, inplace=True)
             data_keep.drop(elec[2], axis=1, inplace=True)
+            print data_keep
+            # import sys; sys.exit()
 
 
         data_latest = data_keep.tail(1)
+        # print data_latest
+        # print data_latest.iloc[0]['sum_kw_system']
+        # import sys; sys.exit()
         try:
-            pdic[bdg] = float(data_latest.iloc[0][elec[1]])
-            time_series(data_keep,bdg)
+            if psb:
+                pdic[bdg] = data_latest.iloc[0]['sum_kw_system']
+                time_series(data_keep,bdg)
+            else:
+                pdic[bdg] = float(data_latest.iloc[0][elec[1]])
+                time_series(data_keep,bdg)
         except:
             print "in except"
             print bdg
@@ -134,7 +143,7 @@ def main():
     sum_exception(pdic,"^WING HALL.*","WING HALL")
     print len(pdic)
     print no_data, " is no data"
-    print pdic
+    # print pdic
     return pdic
 
     # test plotting
