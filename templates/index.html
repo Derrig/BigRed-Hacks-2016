@@ -21,8 +21,13 @@
     <link href="../static/css/main.css" rel="stylesheet">
     <script>
       var electric='{{ electricity|safe }}';
-      console.log(electric["PHYSICAL SCIENCES"]);
-      var electric_dict = JSON.stringify(electric);
+
+      var electric_dict = JSON.parse(electric);
+
+      console.log(typeof electric);
+      console.log(typeof electric_dict);
+      console.log(electric_dict["PHYSICAL SCIENCES"]);
+
 
       // *
       // * Add multiple markers
@@ -173,6 +178,8 @@
       ];
 
       function set_buildingdata() {
+        console.log(buildingdata.length);
+        console.log(Object.keys(electric_dict).length);
         for (var i=0; i<buildingdata.length; i++) {
           console.log("hello");
           buildingdata[i].weight= electric_dict[buildingdata[i].name];
@@ -191,7 +198,7 @@
          set_buildingdata();
          // Event that closes the Info Window with a click on the map
          google.maps.event.addListener(map, 'click', function() {
-            displayMarkers();
+
             map.setZoom(17)
          });
          heatmap();
