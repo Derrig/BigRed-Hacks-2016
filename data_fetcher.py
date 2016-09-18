@@ -33,6 +33,9 @@ def parse_csv():
         bd = "".join(bdg.split())
 
         url = create_url(bd)
+        if bdg == 'American Indian Program House': bdg = 'AKWEKON'
+        bdg = bdg.upper()
+
         print url, "is the url"
         data = pd.read_csv(url)
 
@@ -105,6 +108,7 @@ def main():
     print len(pdic)
     sum_exception(pdic,"^Friedman\s.+","Friedman Wrestling Center")
     # sum_exception(pdic)
+    sum_exception(pdic,"^Schurman\s.+","Schurman")
     print no_data
     return pdic
 
