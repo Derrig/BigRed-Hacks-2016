@@ -9,7 +9,7 @@
 # [x] combine RESS buildings
 # [x] combine IVES HALL, EAST WEST ....
 # [x] fix psb
-# [ ] create power graphs in python
+# [x] create power graphs in python
 # [x] cache systems
 
 import pandas as pd
@@ -27,12 +27,21 @@ def create_url(bd):
     ur2 = "?cmd=csv&s=1d&b=1474171200&e=1474257600"
     return ur1 + bd + ur2
 
-def time_series(df):
+def time_series(df,bdg):
     # df is a dataframe with timestamp, kw cols
-    cols = df.column.values[:]
-    ax = df.plot(x=cols[0],y=cols[1])
+    cols = df.columns.values
+    df[cols[0]] = df[cols[0]].apply(lambda x: pd.to_datetime(x,format='%d-%b-%Y %H:%M:%S'))
+    df[cols[1]] = df[cols[1]].astype(float)
+    print df[cols[0]]
+    print df[cols[1]]
+    try:
+        ax = df.plot(x=cols[0],y=cols[1])
+    except:
+        print bdg, " no work for time series plot"
+        import sys
+        sys.exit()
     fig = ax.get_figure()
-    fig.savefig('timeSeries.png')
+    fig.savefig('plots/' + bdg + '.png')
 
 def parse_csv():
     builds = bds.builds
@@ -62,8 +71,8 @@ def parse_csv():
             continue
 
         elec = data_keep.columns.values[:]
-        for i in xrange(1,len(elec)):
-            data_keep = data_keep[ data_keep[elec[i]] != "nodata" ]
+        # for i in xrange(1,len(elec)):
+        #     data_keep = data_keep[ data_keep[elec[i]] != "nodata" ]
         data_keep = data_keep[ data_keep[elec[1]] != "nodata" ]
 
         # time_series(data_keep)
@@ -80,14 +89,15 @@ def parse_csv():
             data_keep.drop(elec[1], axis=1, inplace=True)
             data_keep.drop(elec[2], axis=1, inplace=True)
 
-        # lst.append(data_keep.tail(1))
-        data_keep = data_keep.tail(1)
+
+        data_latest = data_keep.tail(1)
         try:
-            pdic[bdg] = float(data_keep.iloc[0][elec[1]])
+            pdic[bdg] = float(data_latest.iloc[0][elec[1]])
+            time_series(data_keep,bdg)
         except:
             print "in except"
             print bdg
-            print data_keep
+            print data_latest
             no_data.append(bdg)
     return pdic
 
@@ -110,7 +120,6 @@ def sum_exception(dct,rgx,new):
 
 def main():
     pdic = parse_csv()
-    print len(pdic)
     sum_exception(pdic,"^MARTHA VANRENSSELAER\s.+","MARTHA VANRENSSELAER")
     print len(pdic)
     sum_exception(pdic,"^VET\s.+","VET SCHOOL")
@@ -127,6 +136,23 @@ def main():
     print no_data, " is no data"
     print pdic
     return pdic
+
+    # test plotting
+    # url = "http://portal.emcs.cornell.edu/BoldtTower?cmd=csv&s=1d&b=1474171200&e=1474257600"
+    # data = pd.read_csv(url)
+    # new_cols = data.columns.values
+    # new_cols[0] = 'timestamp'
+    # print new_cols
+    # print data.columns
+    # print data.columns[0]
+    # data.columns = new_cols
+    # data_keep = data.filter(regex='kW|timestamp')
+
+    # elec = data_keep.columns.values[:]
+    # data_keep = data_keep[ data_keep[elec[1]] != "nodata" ]
+
+    # time_series(data_keep,"Boldt Tower")
+
 
 
 
