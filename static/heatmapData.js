@@ -1,5 +1,5 @@
-var data
-data = [
+var dataList;
+dataList = [
   <!--PSB-->
   {location: new google.maps.LatLng(42.4498226, -76.481841), weight: 5},
   <!--GATES-->
