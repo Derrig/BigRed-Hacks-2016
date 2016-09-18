@@ -11,14 +11,13 @@ def index():
     # return ''.join('{}{}'.format(key, val) for key, val in sorted(data_fetcher.main().items()))
     id = 'homepage'
     value = cache.get(id)
-    electricity=json.dumps(data_fetcher.main())
-
+    electricity=json.dumps(data_fetcher.main(), sort_keys=True)
     if value is not None:
         print "used cache -----------------------------"
         return value
     print 'no cache ------------------------'
-    value = render_template('index.html', electricity=electricity)
-    cache.set(id, value, timeout=60 * 5)
+    value = json.dumps(render_template('index.html', electricity=electricity))
+    cache.set(id, value, timeout=60 * 15)
     return value
 
 if __name__ == "__main__":
