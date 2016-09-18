@@ -119,7 +119,7 @@ def main():
     # sum_exception(pdic)
     sum_exception(pdic,"^Schurman\s.+","Schurman")
     print no_data
-    sum_exception(pdic,"^Wing Hall\s.*","Wing Hall")
+    sum_exception(pdic,"^Wing Hall.*","Wing Hall")
     return pdic
 
 
