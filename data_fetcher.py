@@ -99,15 +99,16 @@ def parse_csv():
         try:
             if psb:
                 pdic[bdg] = data_latest.iloc[0]['sum_kw_system']
-                time_series(data_keep,bdg)
+                # time_series(data_keep,bdg)
             else:
                 pdic[bdg] = float(data_latest.iloc[0][elec[1]])
-                time_series(data_keep,bdg)
+                # time_series(data_keep,bdg)
         except:
             print "in except"
             print bdg
             print data_latest
             no_data.append(bdg)
+	    print "===================================================================================================================================================="
     return pdic
 
 def sum_exception(dct,rgx,new):
@@ -167,4 +168,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
