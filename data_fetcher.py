@@ -53,6 +53,10 @@ def parse_csv():
         bd = "".join(bdg.split())
 
         url = create_url(bd)
+
+        if not psb:
+            continue;
+
         if bdg == 'American Indian Program House': bdg = 'AKWEKON'
         bdg = bdg.upper()
 
@@ -144,6 +148,7 @@ def main():
     sum_exception(pdic,"^WING HALL.*","WING HALL")
     print len(pdic)
     print no_data, " is no data"
+
     # print pdic
     return pdic
 

@@ -147,6 +147,12 @@ var buildingdata = [
   {name: "BALCH HALL", lat: 42.4530, lng:-76.4797, weight: 0.3}
 ];
 
+function set_buildingdata() {
+  for (var i=0; i<buildingdata.length; i++) {
+    buildingdata[i].weight= electric_dict[buildingdata[i].name];
+  }
+}
+
 function initMap() {
    var mapOptions = {
       center: new google.maps.LatLng(42.4470,-76.4833),
@@ -164,11 +170,7 @@ function initMap() {
    heatmap();
 }
 
-function set_buildingdata() {
-  for (var i=0; i<buildingdata.length; i++) {
-    buildingdata[i].weight= electric_dict[buildingdata[i].name];
-  }
-}
+
 
 // This function will iterate over buildingdata array
 // creating markers with createMarker function
@@ -182,8 +184,8 @@ function displayMarkers(){
 
       var latlng = new google.maps.LatLng(buildingdata[i].lat, buildingdata[i].lng);
       var name = buildingdata[i].name;
-
-      createMarker(latlng, name);
+      var weight = buildingdata[i].weight;
+      createMarker(latlng, name, weight);
 
       // marker position is added to bounds variable
       bounds.extend(latlng);
@@ -195,11 +197,12 @@ function displayMarkers(){
 }
 
 // This function creates each marker and it sets their Info Window content
-function createMarker(latlng, name){
+function createMarker(latlng, name, weight){
    var marker = new google.maps.Marker({
       map: map,
       position: latlng,
-      title: name
+      title: name,
+      scale: weight
    });
 
    // This event expects a click on a marker
@@ -208,7 +211,8 @@ function createMarker(latlng, name){
    google.maps.event.addListener(marker, 'click', function() {
      map.setZoom(18);
      map.setCenter(marker.getPosition());
-     binfo.innerHTML = name;
+     binfo.innerHTML = name + " " + weight;
+
    });
 }
 
