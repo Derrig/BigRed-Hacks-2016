@@ -198,7 +198,7 @@
          set_buildingdata();
          // Event that closes the Info Window with a click on the map
          google.maps.event.addListener(map, 'click', function() {
-
+            displayMarkers();
             map.setZoom(17)
          });
          heatmap();
